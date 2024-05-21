@@ -57,7 +57,7 @@ public class Main {
         int value = 101;
         if (value <= 0) {
             System.out.println("Красный");
-        } else if (value > 0 && value <= 100) {
+        } else if (value <= 100) {
             System.out.println("Желтый");
         } else {
             System.out.println("Зеленый");
@@ -76,11 +76,7 @@ public class Main {
 
     static boolean sumWithin(int a, int b) {
         int c = a + b;
-        if (c >= 10 && c <= 20) {
-            return true;
-        }
-
-        return false;
+        return c >= 10 && c <= 20;
     }
 
     static void checkNumber(int num) {
@@ -92,27 +88,18 @@ public class Main {
     }
 
     static boolean returnNumber(int b) {
-        if (b >= 0) {
-            return false;
-        }
-
-        return true;
+        return b < 0;
     }
 
     static void printString(String strPrint, int count) {
 
         for (int i = 0; i < count; i++) {
             System.out.println(strPrint);
-
         }
     }
 
     static boolean whatYear(int year) {
-        if ((year % 4 != 0) || (year % 100 == 0) && (year % 400 != 0)) {
-            return false;
-        }
-
-        return true;
+        return (year % 4 == 0) && ((year % 100 != 0) || (year % 400 == 0));
     }
 
     static void arrayOne() {
@@ -124,10 +111,8 @@ public class Main {
             } else {
                 arr[i] = 0;
             }
-
             System.out.println("arr[" + i + "]=" + arr[i]);
         }
-
     }
 
     static void arrayTwo() {
@@ -148,7 +133,6 @@ public class Main {
             }
         }
         System.out.println(Arrays.toString(arr));
-
     }
 
     static void squareArray() {
@@ -159,12 +143,10 @@ public class Main {
                 if (i == j || i == len - j - 1) {
                     arr[i][j] = 1;
                 }
-
                 System.out.print(arr[i][j]);
             }
             System.out.println();
         }
-
     }
 
     static void newArray(int len, int initialValue) {

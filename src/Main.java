@@ -17,7 +17,7 @@ public class Main {
         park.addAttraction("Колесо обозрения", "12:00-20:00", 350);
         park.addAttraction("Автодром", "10:00-17:00", 350);
         park.addAttraction("Самолет", "10:00-17:00", 250);
-        park.addAttraction("Самолет2", "10:00-17:00", 250);
+        park.addAttraction("Батуты", "10:00-17:00", 250);
         park.getInformation();
     }
 }

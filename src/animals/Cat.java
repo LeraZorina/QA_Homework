@@ -2,9 +2,12 @@ package animals;
 
 public class Cat extends Animal {
     private boolean satiety;
+    private static int catCount;
+
     public Cat(String name) {
         super(name);
         satiety = false;
+        catCount++;
     }
 
     @Override
@@ -31,5 +34,9 @@ public class Cat extends Animal {
 
     public void eat(Bowl bowl, int countFood) {
         satiety = bowl.minusFood(countFood);
+    }
+
+    public static void getCountCat() {
+        System.out.println("Всего создано " + catCount + " котов");
     }
 }

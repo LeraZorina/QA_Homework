@@ -10,7 +10,7 @@ public class Circle implements GeometricFigures, FilledShapes, ShapesWithBorders
     }
 
     @Override
-    public double perimeter() {
+    public double perimeter(double ... sideLength) {
         return 2.0 * Math.PI * r;
     }
 
@@ -30,7 +30,7 @@ public class Circle implements GeometricFigures, FilledShapes, ShapesWithBorders
     }
 
     public void infoCircle() {
-        System.out.println("Круг c радиусом " + r + " \nПериметр: " + perimeter() + "\nПлощадь: " + area() +
+        System.out.println("Круг c радиусом " + r + " \nПериметр: " + perimeter(r) + "\nПлощадь: " + area() +
                 "\nЦвет границы: " + borderColor + "\nЦвет заливки: " + fillColor);
     }
 }

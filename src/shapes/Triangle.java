@@ -13,10 +13,10 @@ public class Triangle implements GeometricFigures, ShapesWithBorders, FilledShap
         this.c = c;
     }
 
-    @Override
+    /*@Override
     public double perimeter() {
         return a + b + c;
-    }
+    }*/
 
     @Override
     public double area() {
@@ -35,7 +35,7 @@ public class Triangle implements GeometricFigures, ShapesWithBorders, FilledShap
     }
 
     public void infoTriangle() {
-        System.out.println("Треугольник со сторонами: а=" + a + ", b= " + b + ", c=" + c + " \nПериметр: " + perimeter() + "\nПлощадь: " + area() +
+        System.out.println("Треугольник со сторонами: а=" + a + ", b= " + b + ", c=" + c + " \nПериметр: " + perimeter(a,b,c) + "\nПлощадь: " + area() +
                 "\nЦвет границы: " + borderColor + "\nЦвет заливки: " + fillColor);
     }
 }

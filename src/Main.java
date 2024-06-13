@@ -25,6 +25,8 @@ public class Main {
         }
         catsArray[0].swim(15);
         Animal.getCount();
+        Cat.getCountCat();
+        Dog.getCountDog();
         System.out.println("\nЗадание №2\n");
         Circle circle = new Circle(5);
         circle.setFill("Зеленый");

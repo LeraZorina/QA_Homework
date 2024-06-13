@@ -1,8 +1,11 @@
 package animals;
 
 public class Dog extends Animal {
+    private static int dogCount;
+
     public Dog(String name) {
         super(name);
+        dogCount++;
     }
 
     @Override
@@ -21,5 +24,9 @@ public class Dog extends Animal {
         } else {
             System.out.println("Собака не может проплыть " + length + " м.");
         }
+    }
+
+    public static void getCountDog() {
+        System.out.println("Всего создано " + dogCount + " собак");
     }
 }

@@ -11,11 +11,6 @@ public class Rectangle implements GeometricFigures, ShapesWithBorders, FilledSha
         this.b = b;
     }
 
-    /*@Override
-    public double perimeter() {
-        return 2.0 * (a + b);
-    }*/
-
     @Override
     public double area() {
         return a * b;
@@ -32,7 +27,7 @@ public class Rectangle implements GeometricFigures, ShapesWithBorders, FilledSha
     }
 
     public void infoRectangle() {
-        System.out.println("Прямоугольник со сторонами: a=" + a + ", b=" + b + " \nПериметр: " + perimeter(a,b,a,b) + "\nПлощадь: " + area() +
+        System.out.println("Прямоугольник со сторонами: a=" + a + ", b=" + b + " \nПериметр: " + perimeter(a, b, a, b) + "\nПлощадь: " + area() +
                 "\nЦвет границы: " + borderColor + "\nЦвет заливки: " + fillColor);
     }
 }

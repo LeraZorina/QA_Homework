@@ -7,8 +7,7 @@ public class Factorial {
         }
         if (n == 0 || n == 1) {
             return BigInteger.valueOf(1);
-        } else {
-            return BigInteger.valueOf(n).multiply(CalcFactorial(n - 1));
         }
+        return BigInteger.valueOf(n).multiply(CalcFactorial(n - 1));
     }
 }

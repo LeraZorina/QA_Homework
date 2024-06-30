@@ -63,13 +63,15 @@ public class MtsTest {
     void onlineReplenishmentTest() {
         WebElement connectionPhone = driver.findElement(By.id("connection-phone"));
         WebElement connectionSum = driver.findElement(By.id("connection-sum"));
+        WebElement connectionEmail = driver.findElement(By.id("connection-email"));
         connectionPhone.click();
         connectionPhone.sendKeys("297777777");
         connectionSum.click();
         connectionSum.sendKeys("20");
+        connectionEmail.click();
+        connectionEmail.sendKeys("ivanova28@gmail.com");
         driver.findElement(By.xpath("//*[@id='pay-connection']/button")).click();
-        WebElement frame = driver.findElement(By.xpath("//iframe[@class='bepaid-iframe']"));
-        String link = frame.getAttribute("src");
+        String link = driver.findElement(By.xpath("//iframe[@class='bepaid-iframe']")).getAttribute("src");
         assertEquals("https://checkout.bepaid.by/widget_v2/index.html", link);
         driver.get(mainUrl);
     }

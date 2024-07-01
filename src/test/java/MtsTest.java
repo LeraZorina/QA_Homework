@@ -4,6 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -71,9 +73,14 @@ public class MtsTest {
         connectionEmail.click();
         connectionEmail.sendKeys("ivanova28@gmail.com");
         driver.findElement(By.xpath("//*[@id='pay-connection']/button")).click();
-        String link = driver.findElement(By.xpath("//iframe[@class='bepaid-iframe']")).getAttribute("src");
-        assertEquals("https://checkout.bepaid.by/widget_v2/index.html", link);
-        driver.get(mainUrl);
+        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='bepaid-iframe']"));
+        driver.switchTo().frame(iframe);
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='pay-description__cost']//span[1]"))));
+        String href=driver.findElement(By.xpath("//base")).getAttribute("href");
+        assertEquals("https://checkout.bepaid.by/widget_v2/", href);
+        driver.findElement(By.xpath("//svg-icon[@class='header__close-icon']")).click();
+        driver.switchTo().defaultContent();
     }
 
     @AfterAll

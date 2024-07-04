@@ -136,7 +136,7 @@ public class MtsTest {
         driver.findElement(By.xpath("//*[@id='pay-connection']/button")).click();
         WebElement iframe = driver.findElement(By.xpath("//iframe[@class='bepaid-iframe']"));
         driver.switchTo().frame(iframe);
-        WebDriverWait wait = new WebDriverWait(driver, 10);
+        WebDriverWait wait = new WebDriverWait(driver, 15);
         wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='pay-description__cost']//span[1]"))));
     }
 

@@ -1,87 +1,78 @@
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.List;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MtsTest {
     static WebDriver driver;
     static String mainUrl = "https://www.mts.by/";
+    PaySectionPage paySectionPage;
+    FramePage framePage;
+    InternetPayComponent internetPayComponent;
+    InstalmentComponent instalmentComponent;
+    ArrearsComponent arrearsComponent;
 
-    @BeforeAll
-    static void setupClass() {
+    @BeforeEach
+    void setupClass() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         driver.get(mainUrl);
-    }
-
-    @BeforeEach
-    void closeCoockie() {
-        try {
-            driver.findElement(By.xpath("//button[@id='cookie-agree']")).click();
-        } catch (Exception ignored) {
-        }
+        driver.findElement(By.xpath("//button[@id='cookie-agree']")).click();
+        paySectionPage = new PaySectionPage(driver);
+        framePage = new FramePage(driver);
+        internetPayComponent = new InternetPayComponent(driver);
+        instalmentComponent = new InstalmentComponent(driver);
+        arrearsComponent = new ArrearsComponent(driver);
     }
 
     @DisplayName("Проверка надписей в незаполненных полях варианта оплаты услуг: услуги связи")
     @Test
     void placeHolderComServicesTest() {
-        String fieldPhone = driver.findElement(By.id("connection-phone")).getAttribute("placeholder");
-        String fieldSum = driver.findElement(By.id("connection-sum")).getAttribute("placeholder");
-        String fieldEmail = driver.findElement(By.id("connection-email")).getAttribute("placeholder");
+        paySectionPage = new PaySectionPage(driver);
         assertAll(
-                () -> assertEquals("Номер телефона", fieldPhone),
-                () -> assertEquals("Сумма", fieldSum),
-                () -> assertEquals("E-mail для отправки чека", fieldEmail)
+                () -> assertEquals("Номер телефона", paySectionPage.getPlaceHolderPhone()),
+                () -> assertEquals("Сумма", paySectionPage.getPlaceHolderSum()),
+                () -> assertEquals("E-mail для отправки чека", paySectionPage.getPlaceHolderEmail())
         );
     }
 
     @DisplayName("Проверка надписей в незаполненных полях варианта оплаты услуг: домашний интернет")
     @Test
     void placeHolderInternetTest() {
-        String fieldPhoneSubscriber = driver.findElement(By.id("internet-phone")).getAttribute("placeholder");
-        String fieldSum = driver.findElement(By.id("internet-sum")).getAttribute("placeholder");
-        String fieldEmail = driver.findElement(By.id("internet-email")).getAttribute("placeholder");
         assertAll(
-                () -> assertEquals("Номер абонента", fieldPhoneSubscriber),
-                () -> assertEquals("Сумма", fieldSum),
-                () -> assertEquals("E-mail для отправки чека", fieldEmail)
+                () -> assertEquals("Номер абонента", internetPayComponent.getPlaceHolderPhone()),
+                () -> assertEquals("Сумма", internetPayComponent.getPlaceHolderSum()),
+                () -> assertEquals("E-mail для отправки чека", internetPayComponent.getPlaceHolderEmail())
         );
     }
 
     @DisplayName("Проверка надписей в незаполненных полях варианта оплаты услуг: рассрочка")
     @Test
     void placeHolderInstalmentTest() {
-        String fieldAccountNum = driver.findElement(By.id("score-instalment")).getAttribute("placeholder");
-        String fieldSum = driver.findElement(By.id("instalment-sum")).getAttribute("placeholder");
-        String fieldEmail = driver.findElement(By.id("instalment-email")).getAttribute("placeholder");
         assertAll(
-                () -> assertEquals("Номер счета на 44", fieldAccountNum),
-                () -> assertEquals("Сумма", fieldSum),
-                () -> assertEquals("E-mail для отправки чека", fieldEmail)
+                () -> assertEquals("Номер счета на 44", instalmentComponent.getPlaceHolderAccount()),
+                () -> assertEquals("Сумма", instalmentComponent.getPlaceHolderSum()),
+                () -> assertEquals("E-mail для отправки чека", instalmentComponent.getPlaceHolderEmail())
         );
     }
 
     @DisplayName("Проверка надписей в незаполненных полях варианта оплаты услуг: задолженность")
     @Test
     void placeHolderArrearsTest() {
-        String fieldScore = driver.findElement(By.id("score-arrears")).getAttribute("placeholder");
-        String fieldSum = driver.findElement(By.id("arrears-sum")).getAttribute("placeholder");
-        String fieldEmail = driver.findElement(By.id("arrears-email")).getAttribute("placeholder");
         assertAll(
-                () -> assertEquals("Номер счета на 2073", fieldScore),
-                () -> assertEquals("Сумма", fieldSum),
-                () -> assertEquals("E-mail для отправки чека", fieldEmail)
+                () -> assertEquals("Номер счета на 2073", arrearsComponent.getPlaceHolderScore()),
+                () -> assertEquals("Сумма", arrearsComponent.getPlaceHolderSum()),
+                () -> assertEquals("E-mail для отправки чека", arrearsComponent.getPlaceHolderEmail())
         );
     }
 
@@ -89,66 +80,49 @@ public class MtsTest {
     @Test
     void displayAmountAndPhoneTest() {
         switchToFrame();
-        String textLabel = driver.findElement(By.xpath("//*[@class='pay-description__cost']//span[1]")).getText();
-        String textButton = driver.findElement(By.xpath("//* [@class='card-page__card']//button")).getText();
-        String textPhone = driver.findElement(By.xpath("//* [@class='pay-description__text']")).getText();
         assertAll(
-                () -> assertEquals("20.00 BYN", textLabel),
-                () -> assertEquals("Оплатить 20.00 BYN", textButton),
-                () -> assertEquals("Оплата: Услуги связи Номер:375297777777", textPhone)
+                () -> assertEquals("20.00 BYN", framePage.getPayText()),
+                () -> assertEquals("Оплатить 20.00 BYN", framePage.getBtnText()),
+                () -> assertEquals("Оплата: Услуги связи Номер:375297777777", framePage.getPhone())
         );
-        clearData();
     }
 
     @DisplayName("Проверка надписей в незаполненных полях для ввода реквизитов карты")
     @Test
     void placeHolderCardTest() {
         switchToFrame();
-        String fieldCardNum = driver.findElement(By.xpath("//label[contains(@class,'ng-tns-c46-1 ng-star-inserted')]")).getText();
-        String fieldValidity = driver.findElement(By.xpath("//label[contains(@class,'ng-tns-c46-4 ng-star-inserted')]")).getText();
-        String fieldCvc = driver.findElement(By.xpath("//label[contains(@class,'ng-tns-c46-5 ng-star-inserted')]")).getText();
-        String fieldHolderName = driver.findElement(By.xpath("//label[contains(@class,'ng-tns-c46-3 ng-star-inserted')]")).getText();
         assertAll(
-                () -> assertEquals("Номер карты", fieldCardNum),
-                () -> assertEquals("Срок действия", fieldValidity),
-                () -> assertEquals("CVC", fieldCvc),
-                () -> assertEquals("Имя держателя (как на карте)", fieldHolderName)
+                () -> assertEquals("Номер карты", framePage.getPlaceHolderCardName()),
+                () -> assertEquals("Срок действия", framePage.getPlaceHolderValidity()),
+                () -> assertEquals("CVC", framePage.getPlaceHolderCvc()),
+                () -> assertEquals("Имя держателя (как на карте)", framePage.getHolderName())
         );
-        clearData();
     }
 
     @DisplayName("Проверка наличия иконок платёжных систем")
     @Test
     void paymentSystemIconsTest() {
         switchToFrame();
-        List<WebElement> icons = driver.findElements(By.xpath("//*[@class='cards-brands ng-tns-c46-1']//img"));
-        assertEquals(5, icons.size());
-        clearData();
+        ArrayList<String> srcList = framePage.getSrcIcons();
+        assertAll(
+                () -> assertEquals(5, framePage.countIcons()),
+                () -> assertTrue(srcList.contains("mastercard-system.svg")),
+                () -> assertTrue(srcList.contains("visa-system.svg")),
+                () -> assertTrue(srcList.contains("belkart-system.svg")),
+                () -> assertTrue(srcList.contains("mir-system-ru.svg")),
+                () -> assertTrue(srcList.contains("maestro-system.svg"))
+        );
     }
 
     private void switchToFrame() {
-        WebElement connectionPhone = driver.findElement(By.id("connection-phone"));
-        WebElement connectionSum = driver.findElement(By.id("connection-sum"));
-        connectionPhone.click();
-        connectionPhone.sendKeys("297777777");
-        connectionSum.click();
-        connectionSum.sendKeys("20");
-        driver.findElement(By.xpath("//*[@id='pay-connection']/button")).click();
-        WebElement iframe = driver.findElement(By.xpath("//iframe[@class='bepaid-iframe']"));
-        driver.switchTo().frame(iframe);
-        WebDriverWait wait = new WebDriverWait(driver, 15);
-        wait.until(ExpectedConditions.visibilityOf(driver.findElement(By.xpath("//*[@class='pay-description__cost']//span[1]"))));
+        paySectionPage.inputPhone("297777777");
+        paySectionPage.inputSum("20");
+        paySectionPage.clickContinueBtn();
+        framePage.switchToIframe();
     }
 
-    private void clearData() {
-        driver.findElement(By.xpath("//svg-icon[@class='header__close-icon']")).click();
-        driver.switchTo().defaultContent();
-        driver.findElement(By.id("connection-phone")).clear();
-        driver.findElement(By.id("connection-sum")).clear();
-    }
-
-    @AfterAll
-    static void tearDown() {
+    @AfterEach
+    void tearDown() {
         driver.quit();
     }
 }

@@ -1,25 +1,27 @@
+package pages;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
-public class InstalmentComponent {
+public class ArrearsComponent {
     public WebDriver driver;
 
-    public InstalmentComponent(WebDriver driver) {
+    public ArrearsComponent(WebDriver driver) {
         PageFactory.initElements(driver, this);
         this.driver = driver;
     }
 
-    @FindBy(id = "score-instalment")
-    private WebElement fieldAccountNum;
-    @FindBy(id = "instalment-sum")
+    @FindBy(id = "score-arrears")
+    private WebElement fieldScore;
+    @FindBy(id = "arrears-sum")
     private WebElement fieldSum;
-    @FindBy(id = "instalment-email")
+    @FindBy(id = "arrears-email")
     private WebElement fieldEmail;
 
-    public String getPlaceHolderAccount() {
-        return fieldAccountNum.getAttribute("placeholder");
+    public String getPlaceHolderScore() {
+        return fieldScore.getAttribute("placeholder");
     }
 
     public String getPlaceHolderSum() {
